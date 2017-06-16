@@ -1,19 +1,28 @@
 function Account() {
-  this.balance = 0;
+  this._balance = 0;
   this.transactions = [];
 }
 
-Account.prototype.deposit = function(amount) {
-  this.notNumber(amount);
-  this.transactions.push(new Transaction(amount, "Credit"));
-  return this.balance += amount; //jshint ignore:line
+Account.prototype.checkBalance = function() {
+  return this._balance;
 };
 
-Account.prototype.withdrawal = function(amount) {
-  this.notNumber(amount);
+Account.prototype.deposit = function(amount, date) {
+  var newBalance = this._balance += amount;
+  this.add(amount, "Credit", newBalance, date);
+  return this._balance = newBalance; //jshint ignore:line
+};
+
+Account.prototype.withdrawal = function(amount, date) {
   this.fundsAvailable(amount);
-  this.transactions.push(new Transaction(amount, "Debit"));
-  return this.balance -= amount;
+  var newBalance = this._balance -= amount;
+  this.add(amount, "Debit", newBalance, date);
+  return this._balance = newBalance; //jshint ignore:line
+};
+
+Account.prototype.add = function(amount, type, newBalance, date){
+  this.notNumber(amount);
+  this.transactions.push(new Transaction(amount, type, newBalance, date));
 };
 
 Account.prototype.notNumber = function(amount) {
@@ -23,7 +32,7 @@ Account.prototype.notNumber = function(amount) {
 };
 
 Account.prototype.fundsAvailable = function(amount) {
-  if (this.balance < amount) {
+  if (this._balance < amount) {
     throw new Error("Insufficent funds");
   }
 };

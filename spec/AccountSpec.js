@@ -12,7 +12,7 @@ describe("Account", function() {
     it("Deposit exists", function() {
       amount = 1000;
       account.deposit(amount);
-      expect(account.balance).toBe(1000);
+      expect(account.checkBalance()).toBe(1000);
     });
 
     it("Deposit fails if a positive integer is not passed", function() {

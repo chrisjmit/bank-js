@@ -4,7 +4,6 @@ describe("Transaction", function() {
 
   beforeEach(function(){
     account = new Account();
-    transaction = new Transaction();
   });
 
   it("creates the deposit as a transaction", function() {
@@ -17,6 +16,10 @@ describe("Transaction", function() {
     expect(transaction.type).toBe("Debit");
   });
 
+  it("stores a date", function() {
+    transaction = new Transaction(150, "Credit", 150, new Date("2017-06-16"));
+    expect(transaction.date).toMatch("Fri Jun 16 2017");
+  });
 
 
 });
